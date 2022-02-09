@@ -11,7 +11,12 @@ const Login = () => {
     let data = { task: 'login', id: id, pw: pw };
     
     axios.post('/build/back/server.php', useForm(data)).then(({data}) => {
-      setState(JSON.stringify(data));
+      if (!data.result) {
+        setState(data.reason);
+        return;
+      }
+      setState(data.data.NM + '님 환영합니다');
+      
     });
   }, [id, pw, setState]);
 

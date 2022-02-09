@@ -16,7 +16,7 @@ const name = (state = '', { type, payload }) => {
   }
 }
 
-export default { 
+export default {
   number,
   name
 }

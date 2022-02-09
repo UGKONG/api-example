@@ -13,9 +13,8 @@ switch ($task) {
       echo err('id 또는 pw가 비었습니다.');
       return;
     }
-    // $sql = 'SELECT * FROM USER WHERE ID="' . $id . '" PW="' . $pw .'";';
-    $sql = 'SELECT * FROM USER';
-    // echo $sql;
+
+    $sql = "SELECT * FROM user WHERE ID='{$id}' AND PW='{$pw}'";
     $query = mysqli_query($conn, $sql);
     if (!$query) {
       echo err('DB 정보를 불러오지 못했습니다.');
@@ -25,7 +24,11 @@ switch ($task) {
     while($row = mysqli_fetch_assoc($query)) {
       array_push($set, $row);
     }
-    $result = json_encode(['data' => $set, 'result' => true]);
+    if (count($set) == 0) {
+      echo err('일치하는 회원이 없습니다.');
+      return;
+    }
+    $result = json_encode(['data' => $set[0], 'result' => true]);
     print_r($result);
     break;
   case 'test':
