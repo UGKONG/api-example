@@ -1,5 +1,5 @@
 <?php
-include('./functions.php');
+include('./modules/functions.php');
 $conn = mysqli_connect('localhost', 'root', '569800', 'sanguk');
 
 $task = $_POST['task'];
@@ -8,6 +8,7 @@ switch ($task) {
   case 'login':
     $id = $_POST['id'];
     $pw = $_POST['pw'];
+
     if ($id == '' || $pw == '') {
       echo err('id 또는 pw가 비었습니다.');
       return;
