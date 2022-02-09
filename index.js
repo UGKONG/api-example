@@ -10,8 +10,8 @@ const submit = e => {
   form.append('pw', document.querySelector('#pw').value);
 
   axios.post('./server.php', form).then(({data}) => {
-    if (!data.result) return console.log('Server에서 결과를 불러오지 못했습니다.');
     console.log(data);
+    if (!data.result) return console.log('Server에서 결과를 불러오지 못했습니다.');
     result.innerHTML = JSON.stringify(data);
   });
 }

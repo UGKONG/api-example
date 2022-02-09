@@ -8,11 +8,13 @@ switch ($task) {
   case 'login':
     $id = $_POST['id'];
     $pw = $_POST['pw'];
-    // if ($id == '' || $pw == '') {
-    //   echo err('id 또는 pw가 비었습니다.');
-    //   return;
-    // }
-    $sql = 'SELECT * FROM USER;';
+    if ($id == '' || $pw == '') {
+      echo err('id 또는 pw가 비었습니다.');
+      return;
+    }
+    // $sql = 'SELECT * FROM USER WHERE ID="' . $id . '" PW="' . $pw .'";';
+    $sql = 'SELECT * FROM USER';
+    // echo $sql;
     $query = mysqli_query($conn, $sql);
     if (!$query) {
       echo err('DB 정보를 불러오지 못했습니다.');
