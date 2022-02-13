@@ -1,13 +1,17 @@
 import axios from 'axios';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@modules/hook';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [state, setState] = useState('');
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
 
-  const submit = useCallback(e => {
+  const submit = e => {
     let data = { task: 'login', id: id, pw: pw };
     
     axios.post('/build/back/server.php', useForm(data)).then(({data}) => {
@@ -15,13 +19,16 @@ const Login = () => {
         setState(data.reason);
         return;
       }
-      setState(data.data.NM + '님 환영합니다');
-      
+      dispatch({ type: 'setIsLogin', payload: true });
+      dispatch({ type: 'setLoginInfo', payload: data.data });
+      navigate('/');
     });
-  }, [id, pw, setState]);
-
-  const idChange = useCallback(e => setId(e.target.value), [setId]);
-  const pwChange = useCallback(e => setPw(e.target.value), [setPw]);
+  }
+  const idChange = e => setId(e.target.value);
+  const pwChange = e => {
+    setPw(e.target.value);
+    e.keyCode == 13 && submit();
+  }
 
   return (
     <main>
@@ -37,7 +44,7 @@ const Login = () => {
         </div>
         <div>
           <button type="button" onClick={submit}>로그인</button>
-          <p>결과 : {state}</p>
+          {state && <p>결과 : {state}</p>}
         </div>
       </form>
     </main>
