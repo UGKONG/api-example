@@ -4,27 +4,24 @@ import Main from '@pages/Main.jsx';
 import Login from '@pages/Login.jsx';
 import Dev from '@pages/Dev.jsx';
 import NotFound from '@pages/NotFound.jsx';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useForm } from '@modules/hook';
 
 const App = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = useSelector(state => state.isLogin);
+
   const loginChk = () => {
     let data = { task: 'isSession' };
     axios.post('/build/back/server.php', useForm(data))
       .then(({data}) => {
-        console.log('session:', data);
-        if (!data.data) {
-          console.warn('session이 없습니다.');
-          navigate('/login');
-        }
-
+        if (!data.data || data.data.length == 0) return navigate('/login');
+        dispatch({ type: 'setLoginInfo', payload: data.data });
       });
-    // !isLogin && navigate('/login');
   }
   
   useEffect(() => {

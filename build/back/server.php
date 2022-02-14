@@ -8,7 +8,7 @@ session_start();
 switch ($task) {
   case 'isSession':
     $result = json_encode(
-      ['data' => ['data' => $_SESSION['SN'], 'NM' => $_SESSION['NM']], 'result' => true]
+      ['data' => $_SESSION ?? null, 'result' => true]
     );
     print_r($result);
     return;
@@ -38,7 +38,6 @@ switch ($task) {
       return;
     }
     
-    global $_SESSION;
     $_SESSION['SN'] = $set[0]['SN'];
     $_SESSION['NM'] = $set[0]['NM'];
     $result = json_encode(

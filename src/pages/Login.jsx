@@ -21,6 +21,7 @@ const Login = () => {
       }
       dispatch({ type: 'setIsLogin', payload: true });
       dispatch({ type: 'setLoginInfo', payload: data.data });
+      console.log(data);
       navigate('/');
     });
   }
